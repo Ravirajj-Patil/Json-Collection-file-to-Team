@@ -1,74 +1,47 @@
 # This is a basic workflow to help you get started with Actions
 
-name: API_Automation_for_Edutinker_Login(Host_Check)
-
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-  
-env:
-  REPORT_DIR: "newman-reports"
-  COLLECTION_PATH: "#Admission//Admissions_401_Cases.postman_collection.json"
+name: API_Automation_for_Edutinker_Login
+on : workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  run-api-tests:
-  
-    # The type of runner that the job will run on
-    name: 🚀 Run Postman API Tests
+  test-api :
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # step-1 Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name : 📥 Checkout Code
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
+      - name: create dir
+        run: |
+          mkdir TestArtifact 
+      
       # Step 2: Setup Node.js (for Newman)
-      - name: ⚙️ Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
       # -------------------------
-      # Step 3: Install Newman & Reporters
+      # Step 3: Install Newman
       # -------------------------
-      - name: 📦 Install Dependencies
+      - name: Install Newman 
         run: |
-          npm install -g newman newman-reporter-htmlextra
+          npm install -g newman 
+          npm install -g newman-reporter-slackreporter
+          npm install -g newman-reporter-htmlextra
+          
           
       # 4️⃣ Run API Tests (Collection contains all host/login info)
-      - name: 🧪 Run Postman Tests
-        run: |
-          echo "Running Postman tests from collection..."
-          mkdir -p $REPORT_DIR
-          newman run $COLLECTION_PATH \
-            --timeout 180000 \
-            --reporters cli,htmlextra \
-            --reporter-htmlextra-export "$REPORT_DIR/API-Test-Report.html" \
-            --reporter-htmlextra-title "Edutinker API Automation Report" \
-            --bail
-          echo "✅ Postman tests completed."
+      - name: Run Postman Tests
+        run: new man run "#Admission/Admissions_401_Cases.postman_collection.json" -r cli,htmlextra ---reporter-htmlextra-export
+testArtifacts/htmlreport.html        
 
       # 5️⃣ Upload Test Report
-      - name: 📊 Upload Newman HTML Report
+      - name: Output the Results
         uses: actions/upload-artifact@v4
         with:
-          name: API-Test-Report
-          path: ${{ env.REPORT_DIR }}/API-Test-Report.html
+         name: Reports
+         path: testArtifacts
+        
 
-      # 6️⃣ Optional Notifications
-      - name: ✅ Notify on Success
-        if: success()
-        run: echo "🎉 All API tests passed successfully!"
-
-      - name: ❌ Notify on Failure
-        if: failure()
-        run: echo "⚠️ One or more API tests failed. Please review the Newman report."
+      
