@@ -1,45 +1,42 @@
-# This is a basic workflow to help you get started with Actionss
+# This is a basic workflow to help you get started with Actions
 name: API_Automation_for_Edutinker_Login
-on: workflow_dispatch
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallell
+on:
+  workflow_dispatch:
+
 jobs:
-  test-api :
+  test-api:
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # step-1 Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
-      - name: create dir
-        run: |
-          mkdir TestArtifact 
-      
-      # Step 2: Setup Node.js (for Newman)
+      # Step 1: Check out your repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Create directory for reports
+      - name: Create directory
+        run: mkdir testArtifacts
+
+      # Step 3: Setup Node.js (for Newman)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      # -------------------------
-      # Step 3: Install Newman
-      # -------------------------
-      - name: Install Newman 
-        run: |
-          npm install -g newman 
-          npm install -g newman-reporter-slackreporter
-          npm install -g newman-reporter-htmlextra
-          
-          
-      # 4️⃣ Run API Tests (Collection contains all host/login info)
-      - name: Run Postman Tests
-        run: new man run "#Admission/Admissions_401_Cases.postman_collection.json" -r cli,htmlextra --reporter-htmlextra-export testArtifacts/htmlreport.html        
 
-      # 5️⃣ Upload Test Report
-      - name: Output the Results
+      # Step 4: Install Newman and reporters
+      - name: Install Newman and reporters
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
+          npm install -g newman-reporter-slackreporter
+
+      # Step 5: Run API Tests (Collection contains all host/login info)
+      - name: Run Postman Tests
+        run: newman run "Admission/Admissions_401_Cases.postman_collection.json" -r cli,htmlextra --reporter-htmlextra-export testArtifacts/htmlreport.html
+
+      # Step 6: Upload Test Report
+      - name: Upload Test Report
         uses: actions/upload-artifact@v4
         with:
-         name: Reports
-         path: testArtifacts
-        
-
-      
+          name: Reports
+          path: testArtifacts
