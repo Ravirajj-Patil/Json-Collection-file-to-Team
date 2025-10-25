@@ -3,7 +3,7 @@
 name: API_Automation_for_Edutinker_Login
 on : workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# A workflow run is made up of one or more jobs that can run sequentially or in parallell
 jobs:
   test-api :
     runs-on: ubuntu-latest
