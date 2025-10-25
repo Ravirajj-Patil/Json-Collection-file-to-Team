@@ -32,8 +32,7 @@ jobs:
           
       # 4️⃣ Run API Tests (Collection contains all host/login info)
       - name: Run Postman Tests
-        run: new man run "#Admission/Admissions_401_Cases.postman_collection.json" -r cli,htmlextra ---reporter-htmlextra-export
-testArtifacts/htmlreport.html        
+        run: new man run "#Admission/Admissions_401_Cases.postman_collection.json" -r cli,htmlextra ---reporter-htmlextra-export testArtifacts/htmlreport.html        
 
       # 5️⃣ Upload Test Report
       - name: Output the Results
