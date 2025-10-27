@@ -51,8 +51,7 @@ jobs:
             --reporters cli,htmlextra \
             --reporter-htmlextra-export "newman-reports/API-Test-Report.html" \
             --reporter-htmlextra-title "Fees_Management_200_Cases API Automation Report" \
-            --bail
-
+            
       # -------------------------
       # Step 5: Upload HTML Report as Artifact
       # -------------------------
