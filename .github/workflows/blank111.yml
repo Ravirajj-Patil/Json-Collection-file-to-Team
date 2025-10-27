@@ -45,12 +45,12 @@ jobs:
         run: |
           echo "Running Postman collection..."
           mkdir -p newman-reports
-          newman run "#Admission/Admissions_401_Cases.postman_collection.json" \
+          newman run "##edutinker_Login/#Edutinker_Login.postman_collection.json" \
             --timeout-request 5000 \
             --timeout-script 5000 \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export "newman-reports/API-Test-Report.html" \
-            --reporter-htmlextra-title "Edutinker API Automation Report" \
+            --reporter-htmlextra-title "Edutinker Login API Automation Report" \
             --bail
 
       # -------------------------
