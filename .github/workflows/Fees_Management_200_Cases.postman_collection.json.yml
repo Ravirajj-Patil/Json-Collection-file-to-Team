@@ -45,9 +45,9 @@ jobs:
         run: |
           echo "Running Postman collection..."
           mkdir -p newman-reports
-          newman run "##edutinker_Login/#Edutinker_Login.postman_collection.json" \
-            --timeout-request 5000 \
-            --timeout-script 5000 \
+          newman run "Fees_Management/Fees_Management_200_Cases.postman_collection.json" \
+            --timeout-request 9000 \
+            --timeout-script 9000 \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export "newman-reports/API-Test-Report.html" \
             --reporter-htmlextra-title "Fees_Management_200_Cases API Automation Report" \
