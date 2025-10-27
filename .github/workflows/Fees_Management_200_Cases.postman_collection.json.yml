@@ -50,7 +50,7 @@ jobs:
             --timeout-script 9000 \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export "newman-reports/API-Test-Report.html" \
-            --reporter-htmlextra-title "Fees_Management_200_Cases API Automation Report" \
+            --reporter-htmlextra-title "Fees_Management_200_Cases API Automation Report" 
             
       # -------------------------
       # Step 5: Upload HTML Report as Artifact
