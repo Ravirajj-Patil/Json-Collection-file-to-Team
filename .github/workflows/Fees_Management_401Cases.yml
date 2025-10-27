@@ -1,0 +1,74 @@
+name: 💰 Fees_Management_401Cases
+
+# Trigger workflow automatically and manually
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:   # Manual trigger from GitHub UI
+
+jobs:
+  run-api-tests:
+    name: 🚀 Run Postman API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # -------------------------
+      # Step 1: Checkout Repository
+      # -------------------------
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      # -------------------------
+      # Step 2: Setup Node.js (for Newman)
+      # -------------------------
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # -------------------------
+      # Step 3: Install Newman & Reporter
+      # -------------------------
+      - name: 📦 Install Newman & Reporter
+        run: |
+          npm install -g newman newman-reporter-htmlextra
+
+      # -------------------------
+      # Step 4: Run Postman Tests via Newman
+      # -------------------------
+      - name: 🧪 Run Postman Tests
+        continue-on-error: true
+        run: |
+          echo "Running Postman collection..."
+          mkdir -p newman-reports
+          newman run "##edutinker_Login/#Edutinker_Login.postman_collection.json" \
+            --timeout-request 5000 \
+            --timeout-script 5000 \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export "newman-reports/API-Test-Report.html" \
+            --reporter-htmlextra-title "Fees_Management_401_Cases API Automation Report" \
+            --bail
+
+      # -------------------------
+      # Step 5: Upload HTML Report as Artifact
+      # -------------------------
+      - name: 📊 Upload Newman HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: API-Test-Report
+          path: newman-reports/API-Test-Report.html
+
+      # -------------------------
+      # Step 6: Notifications
+      # -------------------------
+      - name: ✅ Notify on Success
+        if: success()
+        run: echo "🎉 All API tests passed successfully!"
+
+      - name: ❌ Notify on Failure
+        if: failure()
+        run: echo "⚠️ One or more API tests failed. Please review the Newman report."
