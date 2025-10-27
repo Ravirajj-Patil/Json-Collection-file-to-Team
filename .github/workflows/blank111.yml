@@ -44,7 +44,7 @@ jobs:
         run: |
           echo "Running Postman collection..."
           mkdir -p newman-reports
-          newman run "edutinker_Login/Edutinker_Login.postman_collection.json" \
+          newman run "##edutinker_Login/#Edutinker_Login.postman_collection.json" \
             --timeout-request 5000 \
             --timeout-script 5000 \
             --reporters cli,htmlextra \
