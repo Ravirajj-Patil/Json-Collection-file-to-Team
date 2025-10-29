@@ -1,6 +1,5 @@
-name: 💰 Fees_Management_200Cases
+name: 💰 Fees_Management_ALL_Cases
 
-# Trigger workflow automatically and manually
 on:
   push:
     branches:
@@ -8,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:   # Manual trigger from GitHub UI
+  workflow_dispatch:
 
 jobs:
   run-api-tests:
@@ -40,34 +39,58 @@ jobs:
       # -------------------------
       # Step 4: Run Postman Tests via Newman
       # -------------------------
-      - name: 🧪 Run Postman Tests
+      - name: 🧪 Run All Fees Management Collections
         continue-on-error: true
         run: |
-          echo "Running Postman collection..."
+          echo "🏁 Starting Fees Management API Automation..."
+
           mkdir -p newman-reports
+
+          echo "➡️ Running Fees_Management_200_Cases..."
           newman run "Fees_Management/Fees_Management_200_Cases.postman_collection.json" \
-            --timeout-request 9000 \
-            --timeout-script 9000 \
+            --timeout-request 10000 \
+            --timeout-script 10000 \
             --reporters cli,htmlextra \
-            --reporter-htmlextra-export "newman-reports/API-Test-Report.html" \
-            --reporter-htmlextra-title "Fees_Management_200_Cases API Automation Report" 
-            
+            --reporter-htmlextra-export "newman-reports/Fees_Management_200_Cases.html" \
+            --reporter-htmlextra-title "Fees_Management_200_Cases API Automation Report"
+
+          echo "➡️ Running Fees_Management_400_Cases..."
+          newman run "Fees_Management/Fees_Management_400_Cases.postman_collection.json" \
+            --timeout-request 10000 \
+            --timeout-script 10000 \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export "newman-reports/Fees_Management_400_Cases.html" \
+            --reporter-htmlextra-title "Fees_Management_400_Cases API Automation Report"
+
+          echo "➡️ Running Fees_Management_401_Cases..."
+          newman run "Fees_Management/Fees_Management_401_Cases.postman_collection.json" \
+            --timeout-request 10000 \
+            --timeout-script 10000 \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export "newman-reports/Fees_Management_401_Cases.html" \
+            --reporter-htmlextra-title "Fees_Management_401_Cases API Automation Report"
+
+          echo "✅ Completed all collections."
+
       # -------------------------
-      # Step 5: Upload HTML Report as Artifact
+      # Step 5: Upload All HTML Reports as Artifacts
       # -------------------------
-      - name: 📊 Upload Newman HTML Report
+      - name: 📊 Upload Newman HTML Reports
         uses: actions/upload-artifact@v4
         with:
-          name: API-Test-Report
-          path: newman-reports/API-Test-Report.html
+          name: Fees_Management_Test_Reports
+          path: |
+            newman-reports/Fees_Management_200_Cases.html
+            newman-reports/Fees_Management_400_Cases.html
+            newman-reports/Fees_Management_401_Cases.html
 
       # -------------------------
       # Step 6: Notifications
       # -------------------------
       - name: ✅ Notify on Success
         if: success()
-        run: echo "🎉 All API tests passed successfully!"
+        run: echo "🎉 All Fees Management API tests passed successfully!"
 
       - name: ❌ Notify on Failure
         if: failure()
-        run: echo "⚠️ One or more API tests failed. Please review the Newman report."
+        run: echo "⚠️ One or more Fees Management API tests failed. Please check the HTML reports."
