@@ -46,12 +46,11 @@ jobs:
           echo "Running Postman collection..."
           mkdir -p newman-reports
           newman run "##edutinker_Login/#Edutinker_Login.postman_collection.json" \
-            --timeout-request 9000 \
-            --timeout-script 9000 \
+            --timeout-request 10000 \
+            --timeout-script 10000 \
             --reporters cli,htmlextra \
-            --reporter-htmlextra-export "newman-reports/API-Test-Report.html" \
-            --reporter-htmlextra-title "Edutinker Login API Automation Report" \
-            --bail
+            --reporter-htmlextra-export "newman-reports/Edutinker_Login.html" \
+            --reporter-htmlextra-title "Edutinker Login API Automation Report" 
 
       # -------------------------
       # Step 5: Upload HTML Report as Artifact
@@ -59,8 +58,8 @@ jobs:
       - name: 📊 Upload Newman HTML Report
         uses: actions/upload-artifact@v4
         with:
-          name: API-Test-Report
-          path: newman-reports/API-Test-Report.html
+          name: API-Test-Report(Host_Login)
+          path: newman-reports/Edutinker_Login.html
 
       # -------------------------
       # Step 6: Notifications
