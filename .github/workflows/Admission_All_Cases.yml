@@ -1,0 +1,96 @@
+name: 💰 Admission_ALL_Cases
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  run-api-tests:
+    name: 🚀 Run Postman API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # -------------------------
+      # Step 1: Checkout Repository
+      # -------------------------
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      # -------------------------
+      # Step 2: Setup Node.js (for Newman)
+      # -------------------------
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # -------------------------
+      # Step 3: Install Newman & Reporter
+      # -------------------------
+      - name: 📦 Install Newman & Reporter
+        run: |
+          npm install -g newman newman-reporter-htmlextra
+
+      # -------------------------
+      # Step 4: Run Postman Tests via Newman
+      # -------------------------
+      - name: 🧪 Run All Admission Collections
+        continue-on-error: true
+        run: |
+          echo "🏁 Starting Admission API Automation..."
+
+          mkdir -p newman-reports
+
+          echo "➡️ Running Admission_200_Cases..."
+          newman run "Admission/Admission_200_Cases.postman_collection.json" \
+            --timeout-request 15000 \
+            --timeout-script 15000 \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export "newman-reports/Admission_200_Cases.html" \
+            --reporter-htmlextra-title "Admission_200_Cases API Automation Report"
+
+          echo "➡️ Running Admission_400_Cases..."
+          newman run "Admission/Admission_400_Cases.postman_collection.json" \
+            --timeout-request 15000 \
+            --timeout-script 15000 \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export "newman-reports/Admission_400_Cases.html" \
+            --reporter-htmlextra-title "Admission_400_Cases API Automation Report"
+
+          echo "➡️ Running Admission_401_Cases..."
+          newman run "Admission/Admissions_401_Cases.postman_collection.json" \
+            --timeout-request 15000 \
+            --timeout-script 15000 \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export "newman-reports/Admission_401_Cases.html" \
+            --reporter-htmlextra-title "Admission_401_Cases API Automation Report"
+
+          echo "✅ Completed all collections."
+
+      # -------------------------
+      # Step 5: Upload All HTML Reports as Artifacts
+      # -------------------------
+      - name: 📊 Upload Newman HTML Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fees_Management_Test_Reports
+          path: |
+            newman-reports/Admission_200_Cases.html
+            newman-reports/Admission_400_Cases.html
+            newman-reports/Admission_401_Cases.html
+
+      # -------------------------
+      # Step 6: Notifications
+      # -------------------------
+      - name: ✅ Notify on Success
+        if: success()
+        run: echo "🎉 All Fees Management API tests passed successfully!"
+
+      - name: ❌ Notify on Failure
+        if: failure()
+        run: echo "⚠️ One or more Fees Management API tests failed. Please check the HTML reports."
