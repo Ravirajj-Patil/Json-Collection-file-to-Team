@@ -36,39 +36,50 @@ jobs:
         run: |
           npm install -g newman newman-reporter-htmlextra
 
-           # -------------------------
+      # -------------------------
       # Step 4: Run Postman Tests via Newman
       # -------------------------
-      - name: 🧪 Run All Admission Collections
+
+      - name: 🧪 Start Admission API Automation
         run: |
           echo "🏁 Starting Admission API Automation..."
           mkdir -p newman-reports
 
+      - name: 🧩 Run Admission_200_Cases
+        continue-on-error: true
+        run: |
           echo "➡️ Running Admission_200_Cases..."
           newman run "Admission/Admission_200_Cases.postman_collection.json" \
             --timeout-request 15000 \
             --timeout-script 15000 \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export "newman-reports/Admission_200_Cases.html" \
-            --reporter-htmlextra-title "Admission_200_Cases API Automation Report" || true
+            --reporter-htmlextra-title "Admission_200_Cases API Automation Report"
 
+      - name: 🧩 Run Admission_400_Cases
+        continue-on-error: true
+        run: |
           echo "➡️ Running Admission_400_Cases..."
           newman run "Admission/Admission_400_Cases.postman_collection.json" \
             --timeout-request 15000 \
             --timeout-script 15000 \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export "newman-reports/Admission_400_Cases.html" \
-            --reporter-htmlextra-title "Admission_400_Cases API Automation Report" || true
+            --reporter-htmlextra-title "Admission_400_Cases API Automation Report"
 
+      - name: 🧩 Run Admission_401_Cases
+        continue-on-error: true
+        run: |
           echo "➡️ Running Admission_401_Cases..."
           newman run "Admission/Admissions_401_Cases.postman_collection.json" \
             --timeout-request 15000 \
             --timeout-script 15000 \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export "newman-reports/Admission_401_Cases.html" \
-            --reporter-htmlextra-title "Admission_401_Cases API Automation Report" || true
+            --reporter-htmlextra-title "Admission_401_Cases API Automation Report"
 
-          echo "✅ Completed all collections."
+      - name: ✅ Finalize Admission Test Execution
+        run: echo "✅ Completed all Admission collections."
 
 
       # -------------------------
