@@ -77,7 +77,7 @@ jobs:
       - name: 📊 Upload Newman HTML Reports
         uses: actions/upload-artifact@v4
         with:
-          name: Fees_Management_Test_Reports
+          name: Admission_Module_Test_Reports
           path: |
             newman-reports/Admission_200_Cases.html
             newman-reports/Admission_400_Cases.html
