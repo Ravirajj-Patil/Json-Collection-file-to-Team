@@ -90,7 +90,7 @@ jobs:
       # -------------------------
       - name: ✅ Notify on Success
         if: success()
-        run: echo "🎉 All Fees Management API tests passed successfully!"
+        run: echo "🎉 All Admission Module API tests passed successfully!"
 
       - name: ❌ Notify on Failure
         if: failure()
