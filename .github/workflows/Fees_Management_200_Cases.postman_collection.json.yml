@@ -48,8 +48,8 @@ jobs:
 
           echo "➡️ Running Fees_Management_200_Cases..."
           newman run "Fees_Management/Fees_Management_200_Cases.postman_collection.json" \
-            --timeout-request 15000 \
-            --timeout-script 15000 \
+            --timeout-request 5000 \
+            --timeout-script 5000 \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export "newman-reports/Fees_Management_200_Cases.html" \
             --reporter-htmlextra-title "Fees_Management_200_Cases API Automation Report"
