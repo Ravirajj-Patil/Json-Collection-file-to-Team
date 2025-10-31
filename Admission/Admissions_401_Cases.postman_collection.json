@@ -9729,7 +9729,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/Ravindranath/Downloads/Enquiry_Feilds.csv"
+									"src": "All_Module_Files/Enquiry_Feilds_48_Admission.csv"
 								},
 								{
 									"key": "uploadedFile",
@@ -11802,7 +11802,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/Ravindranath/Downloads/bulk application upload.csv"
+									"src": "All_Module_Files/bulk_application_upload_59_admission.csv"
 								},
 								{
 									"key": "uploadedFile",
@@ -14321,7 +14321,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/Ravindranath/Downloads/Student_import_errorfile_30-05-2025_at_12-50-47-684757-PM.csv"
+									"src": "All_Module_Files/Student_import_errorfile_72_admission.csv"
 								},
 								{
 									"key": "schoolId",
